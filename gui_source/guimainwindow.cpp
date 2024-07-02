@@ -47,7 +47,9 @@ GuiMainWindow::GuiMainWindow(QWidget *pParent) : QMainWindow(pParent), ui(new Ui
     g_xOptions.addID(XOptions::ID_VIEW_STYLE, "Fusion");
     g_xOptions.addID(XOptions::ID_VIEW_LANG, "System");
     g_xOptions.addID(XOptions::ID_VIEW_FONT_CONTROLS, XOptions::getDefaultFont().toString());
-    g_xOptions.addID(XOptions::ID_VIEW_FONT_TABLES, XOptions::getMonoFont().toString());
+    g_xOptions.addID(XOptions::ID_VIEW_FONT_TABLEVIEWS, XOptions::getMonoFont().toString());
+    g_xOptions.addID(XOptions::ID_VIEW_FONT_TREEVIEWS, XOptions::getDefaultFont().toString());
+    g_xOptions.addID(XOptions::ID_VIEW_FONT_TEXTEDITS, XOptions::getMonoFont().toString());
     g_xOptions.addID(XOptions::ID_VIEW_STAYONTOP, false);
     g_xOptions.addID(XOptions::ID_VIEW_SINGLEAPPLICATION, false);
     g_xOptions.addID(XOptions::ID_FILE_SAVELASTDIRECTORY, true);
@@ -134,6 +136,7 @@ void GuiMainWindow::on_pushButtonExit_clicked()
 void GuiMainWindow::on_pushButtonAbout_clicked()
 {
     DialogAbout dialogAbout(this);
+    dialogAbout.setGlobal(&g_xShortcuts, &g_xOptions);
 
     dialogAbout.exec();
 }
@@ -141,6 +144,7 @@ void GuiMainWindow::on_pushButtonAbout_clicked()
 void GuiMainWindow::on_pushButtonOptions_clicked()
 {
     DialogOptions dialogOptions(this, &g_xOptions, XOptions::GROUPID_FILE);
+    dialogOptions.setGlobal(&g_xShortcuts, &g_xOptions);
 
     dialogOptions.exec();
 
@@ -255,7 +259,7 @@ void GuiMainWindow::on_pushButtonOpenFile_clicked()
 void GuiMainWindow::on_pushButtonShortcuts_clicked()
 {
     DialogShortcuts dialogShortcuts(this);
-
+    dialogShortcuts.setGlobal(&g_xShortcuts, &g_xOptions);
     dialogShortcuts.setData(&g_xShortcuts);
 
     dialogShortcuts.exec();
